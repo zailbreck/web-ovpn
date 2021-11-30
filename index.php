@@ -76,6 +76,9 @@
                 url: 'generateUser.php',
                 type: 'POST',
                 data: { nim : nim_mhs },
+                beforeSend: function() { 
+                  $('#container').html("<img src='https://i0.wp.com/www.printmag.com/wp-content/uploads/2021/02/4cbe8d_f1ed2800a49649848102c68fc5a66e53mv2.gif?fit=476%2C280&ssl=1' />");
+                },
                 success: function(response){
                     // alert(response)
                     $('#urlDownload').html(response);
@@ -98,7 +101,7 @@
     </script>
     <!-- Modal -->
     <div id="modal" class="modal">
-    <div class="modal-content">
+    <div class="modal-content" id="container">
       <h4>Info</h4>
       <span id="urlDownload"></span>
     </div>
