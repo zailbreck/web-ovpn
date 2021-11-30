@@ -38,8 +38,8 @@ function createAccount($NIM){
             return "Err102";
         }else{
             $ssh->exec('cd ~/');
-            $ret = $ssh->exec("./createUser.sh '".$NIM."'");
-            echo $ret;
+            $ssh->exec("./createUser.sh '".$NIM."'");
+            echo "<b>Download ur File in Here <a href=config/'".$NIM.".ovpn'>".$NIM.".ovpn</a></b>";
         }
     }
 }
