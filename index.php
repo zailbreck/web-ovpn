@@ -78,7 +78,6 @@
                 data: { nim : nim_mhs },
                 success: function(response){
                     // alert(response)
-                    $('#modal').closeModal();
                     $('#urlDownload').html(response);
                     $('#modal').openModal();
                 }
