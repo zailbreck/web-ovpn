@@ -39,7 +39,7 @@ function createAccount($NIM){
         }else{
             $ssh->exec('cd ~/');
             $ssh->exec("./createUser.sh '".$NIM."'");
-            echo "<b>Download ur File in Here <a href=config/".$NIM.".ovpn>".$NIM.".ovpn</a></b>";
+            echo "<b>Download ur File in Here <a href='config/".$NIM.".ovpn' download>".$NIM.".ovpn</a></b>";
         }
     }
 }
