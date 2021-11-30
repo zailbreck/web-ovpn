@@ -1,4 +1,7 @@
 <?php
+set_include_path(get_include_path() . PATH_SEPARATOR . 'phpseclib1.0.19');
+include('Net/SSH2.php');
+
 $host = '192.168.11.183';
 $port = 22;
 $username = 'vpn';
