@@ -1,29 +1,63 @@
 <?php
-set_include_path(get_include_path() . PATH_SEPARATOR . 'phpseclib1.0.19');
-include('Net/SSH2.php');
+/*
+Err101 = Server Error
+Err102 = Login Error
 
-$host = '192.168.11.183';
-$port = 22;
-$username = 'vpn';
-$password = 'vpn903';
+
+
+*/
+//Hide All Error
+error_reporting(0);
+ini_set('display_errors', 0);
+
+
+include 'vendor/autoload.php';
+
+
+
+function createAccount($NIM){
+    $host = '192.168.11.183';
+    $port = 22;
+    $timeout = 3;
+    $username = 'vpn';
+    $password = 'vpn903';
+    // Cek Koneksi Tersedia Atau Tidak ?
+    $fsock = fsockopen($host, $port, $errno, $errstr, $timeout);
+    if (!$fsock) {
+        //Jika Koneksi Tidak Tersedia
+        print_r($fsock);
+        return "Err101";
+    }else{ //Jika Koneksi Tersedia
+        // Cek Sambungan SSH
+        $ssh = new \phpseclib3\Net\SSH2($host, $port);
+
+        // Cek Status Login ke SSH
+        if (!$ssh->login($username, $password)) {
+            //Jika Login gagal 
+            print_r("102");
+            return "Err102";
+        }else{
+            $ssh->exec('cd ~/');
+            $ret = $ssh->exec("./createUser.sh '".$NIM."'");
+            echo $ret;
+        }
+    }
+}
 
 if(!empty($_POST['nim'])){ // Cek apakah parameter tidak kosong
     $nim_mhs = $_POST['nim']; // assign nilai dari parameter kedalam variabel
     if(!strpos($nim_mhs, ' ')){ // cek apakah variable mengandung space (spasi)
-        $script = "sshpass -p 'vpn903' vpn@192.168.11.183 'cd ~/ ; ./createUser.sh ".$nim_mhs."'";
-        $connection = ssh2_connect($host, $port);
-        ssh2_auth_password($connection, $username, $password);
-
-
-        $stream = ssh2_exec($connection, $script);
-        stream_set_blocking($stream, true);
-        $output = stream_get_contents($stream);
-
-        echo print_r($output);      
+        createAccount($nim_mhs);
     }else{
         echo "Error : Tidak Boleh ada Spasi"; //Tampilkan error Jika Ada Spasi
     }
 }else{
     echo "Error : NIM Wajib Diisi!"; // Tampilkan Error Jika form kosong
 }
+
+
+
+
+
+
 ?>
